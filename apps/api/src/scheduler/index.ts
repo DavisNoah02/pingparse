@@ -2,6 +2,7 @@ import { db } from '../db/index.ts';
 import { services } from '../db/schema.ts';
 import { eq } from 'drizzle-orm';
 import { runCheck } from '../modules/checks/checker.ts';
+import { logger } from '../config/logger.ts';
 
 const activeTimers = new Map<number, NodeJS.Timeout>();
 
@@ -15,7 +16,7 @@ function scheduleService(serviceId: number, url: string, intervalSeconds: number
 
   // Then run on interval
   const timer = setInterval(() => {
-    runCheck(serviceId, url).catch(console.error);
+    runCheck(serviceId, url).catch((err) => logger.error({ err }, 'Check failed'));
   }, intervalSeconds * 1000);
 
   activeTimers.set(serviceId, timer);
@@ -36,7 +37,7 @@ export async function startScheduler(): Promise<void> {
     .where(eq(services.isActive, true))
     .all();
 
-  console.log(`[SCHEDULER] Starting — ${activeServices.length} active services`);
+  logger.info(`[SCHEDULER] Starting — ${activeServices.length} active services`);
 
   for (const service of activeServices) {
     scheduleService(service.id, service.url, service.interval);

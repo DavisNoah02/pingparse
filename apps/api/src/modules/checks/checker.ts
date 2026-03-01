@@ -1,6 +1,7 @@
 import { db } from '../../db/index.ts';
 import { checks, services } from '../../db/schema.ts';
 import { eq } from 'drizzle-orm';
+import { logger } from '../../config/logger.ts'
 
 interface CheckResult {
   isUp: boolean;
@@ -62,7 +63,13 @@ export async function runCheck(serviceId: number, url: string): Promise<void> {
     .where(eq(services.id, serviceId))
     .run();
 
-  console.log(
-    `[CHECK] ${url} — ${result.isUp ? 'UP' : 'DOWN'} | ${result.statusCode ?? 'no response'} | ${result.latency}ms${result.errorMsg ? ` | ${result.errorMsg}` : ''}`
-  );
+  logger.info({
+  serviceId,
+  url,
+  isUp: result.isUp,
+  statusCode: result.statusCode,
+  latency: result.latency,
+  errorMsg: result.errorMsg,
+});
+
 }

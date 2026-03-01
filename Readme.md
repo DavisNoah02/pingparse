@@ -56,7 +56,7 @@ If you are learning backend, DevOps, or SaaS architecture, this repo documents e
 - [X] CRUD endpoints for services
 - [x] Health check engine (pinging URLs)
 - [x] Scheduler (periodic checks)
-- [ ] Unit + integration tests
+- [x] Unit + integration tests
 
 ### 🔲 Phase 2 — Frontend MVP
 - [ ] Next.js setup
