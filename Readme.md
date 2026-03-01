@@ -54,8 +54,8 @@ If you are learning backend, DevOps, or SaaS architecture, this repo documents e
 - [x] Database schema (services + checks)
 - [x] Drizzle ORM + migrations
 - [X] CRUD endpoints for services
-- [ ] Health check engine (pinging URLs)
-- [ ] Scheduler (periodic checks)
+- [x] Health check engine (pinging URLs)
+- [x] Scheduler (periodic checks)
 - [ ] Unit + integration tests
 
 ### 🔲 Phase 2 — Frontend MVP
