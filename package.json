@@ -1,0 +1,29 @@
+{
+  "name": "pingparse",
+  "version": "1.0.0",
+  "description": "StatusPing / PingParse API - uptime monitoring backend",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+  "dev": "tsx watch apps/api/server.js",
+  "start": "node apps/api/server.js",
+  "test": "vitest run",
+  "db:generate": "drizzle-kit generate",
+  "db:migrate": "node --import tsx/esm apps/api/src/db/migrate.js"
+},
+  "keywords": ["saas", "uptime", "monitoring", "devops"],
+  "author": "Neo",
+  "license": "MIT",
+  "dependencies": {
+    "better-sqlite3": "^12.6.2",
+    "dotenv": "^17.3.1",
+    "drizzle-orm": "^0.45.1",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.9",
+    "nodemon": "^3.1.14",
+    "tsx": "^4.21.0",
+    "vitest": "^4.0.18"
+  }
+}
