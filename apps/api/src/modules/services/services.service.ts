@@ -1,4 +1,5 @@
 import { servicesRepository } from './services.repository.ts';
+import { scheduleService, unscheduleService } from '../../scheduler/index.ts';
 import type { CreateServiceInput, UpdateServiceInput } from './services.schema.ts';
 
 export class ServiceNotFoundError extends Error {
@@ -29,18 +30,40 @@ export const servicesService = {
   async create(input: CreateServiceInput) {
     const existing = servicesRepository.findByUrl(input.url);
     if (existing) throw new ServiceUrlConflictError(input.url);
-    return servicesRepository.create(input);
+
+    const service = servicesRepository.create(input);
+    if (!service) throw new Error('Failed to create service');
+
+    // Start monitoring immediately
+    scheduleService(service.id, service.url, service.interval);
+
+    return service;
   },
 
   async update(id: number, input: UpdateServiceInput) {
     const service = servicesRepository.findById(id);
     if (!service) throw new ServiceNotFoundError(id);
-    return servicesRepository.update(id, input);
+
+    const updated = servicesRepository.update(id, input);
+    if (!updated) throw new Error('Failed to update service');
+
+    // Reschedule if interval or active state changed
+    if (updated.isActive) {
+      scheduleService(updated.id, updated.url, updated.interval);
+    } else {
+      unscheduleService(updated.id);
+    }
+
+    return updated;
   },
 
   async remove(id: number) {
     const service = servicesRepository.findById(id);
     if (!service) throw new ServiceNotFoundError(id);
+
+    // Stop monitoring before deleting
+    unscheduleService(id);
+
     return servicesRepository.remove(id);
   },
 };

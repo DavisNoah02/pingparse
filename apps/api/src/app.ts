@@ -2,6 +2,7 @@ import express from 'express';
 import { requestLogger } from './middleware/requestLogger.ts';
 import { errorHandler } from './middleware/errorHandler.ts';
 import { servicesRouter } from './modules/services/index.ts';
+import { checksRouter } from './modules/checks/index.ts';
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.get('/health', (req, res) => {
 });
 
 app.use('/api/services', servicesRouter);
+app.use('/api/checks', checksRouter);
 
 app.use(errorHandler);
 

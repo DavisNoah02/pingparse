@@ -53,7 +53,7 @@ If you are learning backend, DevOps, or SaaS architecture, this repo documents e
 - [x] `/health` endpoint
 - [x] Database schema (services + checks)
 - [x] Drizzle ORM + migrations
-- [ ] CRUD endpoints for services
+- [X] CRUD endpoints for services
 - [ ] Health check engine (pinging URLs)
 - [ ] Scheduler (periodic checks)
 - [ ] Unit + integration tests
