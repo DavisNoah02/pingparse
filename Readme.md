@@ -116,7 +116,7 @@ pingparse/
 
 ```bash
 # Clone the repo
-git clone https://github.com/YOUR_USERNAME/pingparse.git
+git clone https://github.com/DavisNoah02/pingparse.git
 cd pingparse
 
 # Install dependencies
